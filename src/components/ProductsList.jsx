@@ -10,12 +10,42 @@ const products = [
 export default function ProductsList() {
     const [addedProducts, setAddedProducts] = useState([]);
 
+    const updateProductQuantity = (name, quantity) => {
+        setAddedProducts(curr => curr.map(p => {
+            if (p.name === name) {
+                return {
+                    ...p,
+                    quantity
+                }
+            }
+            return p
+        }))
+    }
     function addToCart(product) {
-        const isAlreadyAdded = addedProducts.some(p => p.name === product.name);
-        if (isAlreadyAdded) return;
-
+        const addedProduct = addedProducts.find(p => p.name === product.name);
+        if (addedProduct) {
+            updateProductQuantity(addedProduct.name, addedProduct.quantity += 1)
+            return;
+        }
         setAddedProducts(curr => [...curr, { ...product, quantity: 1 }]);
     }
+
+    function removeQantity(product) {
+        const delateQantity = addedProducts.find(p => p.name === product.name);
+        if (delateQantity) {
+            updateProductQuantity(
+                delateQantity.name,
+                delateQantity.quantity > 1 ? delateQantity.quantity - 1 : 0
+            )
+            return;
+        }
+    }
+
+    function removeFromCart(product) {
+        setAddedProducts(curr => curr.filter(p => p.name !== product.name))
+    }
+
+    const totalPay = addedProducts.reduce((acc, p) => acc + (p.price * p.quantity), 0)
 
     return (
         <div className="container">
@@ -46,21 +76,16 @@ export default function ProductsList() {
                                     <p><strong>Nome:</strong> {p.name}</p>
                                     <p><strong>Prezzo:</strong> {p.price.toFixed(2)}€</p>
                                     <p><strong>Quantità:</strong> {p.quantity}</p>
+                                    <button onClick={() => removeQantity(p)}>Rimuovi Quantità</button>
+                                    <button onClick={() => addToCart(p)}>Aggiungi quantità</button>
+                                    <button onClick={() => removeFromCart(p)}>Rimuovi dal carrello</button>
                                 </li>
                             ))}
                         </ul>
                     )}
+                    <h3>{totalPay.toFixed(2)}€</h3>
                 </section>
             </details>
         </div>
     );
 }
-
-// 📌 Milestone 3: Modificare il carrello
-// Al click successivo del bottone "Aggiungi al carrello", se il prodotto è già presente:
-// Usa una funzione updateProductQuantity per incrementare la proprietà quantity del prodotto esistente.
-// Per ogni prodotto nel carrello, aggiungi un bottone "Rimuovi dal carrello":
-// Al click, usa una funzione removeFromCart per rimuovere il prodotto dal carrello.
-// Sotto alla lista del carrello, mostra il totale da pagare:
-// Calcola il totale moltiplicando il prezzo per la quantità di ogni prodotto e somma tutti i risultati.
-// Obiettivo: Gestire l’aggiunta, la rimozione e il calcolo del totale del carrello in modo dinamico.
