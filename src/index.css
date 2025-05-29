@@ -1,7 +1,73 @@
+/* Reset e box model */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+li{
+  list-style:none;
+}
+
+/* Contenitore principale */
+.container {
+  max-width: 80%;
+  margin: auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+/* Layout a griglia per le card */
+.card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* più responsivo */
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ogni singolo prodotto o elemento nel carrello */
+.item {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dettagli (espandibili) */
+details {
+  margin: 2rem 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fafafa;
+}
+
+/* Sommario cliccabile dei dettagli */
+details > summary {
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+  background-color: #ccc;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+/* Pulsante per aggiungere al carrello */
+button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
 }
